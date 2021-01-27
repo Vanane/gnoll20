@@ -44,8 +44,9 @@
 
 
         <div id="dice" class="hiddentab" hidden>
-            <div class="content">prout</div>
-            <a class="quit" onclick="closeTab('name')">X</a>
+            <div class="content">                
+                <a class="quit" onclick="closeTab('dice')"></a>
+            </div>
         </div>
     </body>
 </html>

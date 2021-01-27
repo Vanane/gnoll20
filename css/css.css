@@ -115,7 +115,7 @@ a
 
 .hiddentab
 {
-    position:fixed;
+    position:absolute;
     left:0;
     top:0;    
     width:100%;
@@ -126,7 +126,7 @@ a
 
 .hiddentab .content
 {
-    position:relative;
+    position:absolute;
     left:20%;
     top:10%;
     width:60%;
@@ -141,6 +141,13 @@ a
 
 .quit
 {
-    position:absolute;
+    position:relative;
     display:inline-block;
+    float:right;
+    width:50px;
+    height:50px;
+    box-sizing: border-box;
+    background:url("/img/cross.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
