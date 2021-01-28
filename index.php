@@ -20,6 +20,16 @@
             <div id="propslist">
                 <p>Filter props :</p>
                 <input class="search"/>
+                <div draggable="true" class="menuprop" style="background-color: red;" ondragstart="setDraggedItem(this)">
+                    name
+                </div>
+                <div draggable="true" class="menuprop" style="background-color: green;" ondragstart="setDraggedItem(this)">
+                    name
+                </div>
+                <div draggable="true" class="menuprop" style="background-color: blue;" ondragstart="setDraggedItem(this)">
+                    name
+                </div>
+
                 <!--
                     <p id="prop1" onclick="">
                         <p class="propname">eroghijb</p>
@@ -28,9 +38,7 @@
                 -->
             </div>
         </div>
-        <div class="game" id="game">
-            <canvas>
-            </canvas>
+        <div class="game" id="game" ondrop="onDragGame(event)">            
         </div>
         <div class="players" id="players">
             <!--
