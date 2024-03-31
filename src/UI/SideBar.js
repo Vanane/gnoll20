@@ -1,5 +1,5 @@
-class SideBar extends Component {
-	static baseHTML = `<div class="sidebar"><span class="sidebar-title"></span><div class="sidebar-content"></div></div>`;
+export class SideBar extends Component {
+	static baseHTML = `<div class="sidebar"><span class="sidebar-title"></span></div>`;
 
 	/** @type {HTMLSpanElement} */
 	title;
@@ -7,13 +7,13 @@ class SideBar extends Component {
 	/** @type {HTMLElement} */
 	content;
 
-	static instantiate(parentDom, name) {
-		return new Token(parentDom, name);
+	static instantiate(parent, name) {
+		return new SideBar(parent, name);
 	}
 
 
-	constructor(parentDom, name) {
-		super(parentDom, name);
+	constructor(parent, name) {
+		super(parent, name);
 		this.title = this.dom.getElementsByClassName("sidebar-title")[0];
 		this.content = this.dom.getElementsByClassName("sidebar-content")[0];
 	}
@@ -31,8 +31,8 @@ class SideBar extends Component {
 	}
 
 
-	setWidth(width) {
-		this.dom.style.width = `${width}px`;
+	setWidth(width) {		
+		this.dom.style.width = `${width}`;
 		return this;
 	}
-}
+};

@@ -1,4 +1,4 @@
-class Token extends Component {
+export class Token extends Component {
 	static baseHTML = `<div class="board-token"><span class="token-title">prout</span><img class="token-img"><img></div>`;
 
 	/** @type {HTMLSpanElement} */
@@ -7,13 +7,13 @@ class Token extends Component {
 	/** @type {HTMLImageElement} */
 	image;
 
-	static instantiate(parentDom, name) {
-		return new Token(parentDom, name).makeDraggable().restrictDragToParent();
+	static instantiate(parent, name) {
+		return new Token(parent, name).makeDraggable().restrictDragToParent();
 	}
 
 
-	constructor(parentDom, name) {
-		super(parentDom, name);
+	constructor(parent, name) {
+		super(parent, name);
 		this.title = this.dom.getElementsByClassName("token-title")[0];
 		this.image = this.dom.getElementsByClassName("token-img")[0];
 	}
@@ -28,4 +28,4 @@ class Token extends Component {
 		this.image.src = url;
 		return this;
 	}
-}
+};

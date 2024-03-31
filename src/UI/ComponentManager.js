@@ -1,4 +1,4 @@
-class ComponentManager {
+export class ComponentManager {
 	/** @type {ComponentManager} */
 	static instance = null;
 
@@ -10,6 +10,9 @@ class ComponentManager {
 	/** @type {Blank} */
 	blank;
 
+
+	/** @type {Component} */
+	root;
 	
 	constructor() {
 		if(ComponentManager.instance != null)
@@ -19,8 +22,10 @@ class ComponentManager {
 		this.components = {};
 
 		this.enableMousePosition();
+		
+		this.setRootComponent();
 
-		this.blank = Blank.instantiate(document.children[0], "_blank").setAttributes({ name:"_blank" });
+		this.blank = Blank.instantiate(this.root, "_blank").setAttributes({ name:"_blank" });
 	}
 
 
@@ -38,6 +43,11 @@ class ComponentManager {
         };
 	}
 
+	setRootComponent() {
+		this.root = Component.getRoot();
+		document.body.appendChild(this.root.dom);
+	}
+
 
 	addComponent(c) {
 		if(c.name)
@@ -45,4 +55,4 @@ class ComponentManager {
 		else
 			throw Error("Component lacks name");
 	}
-}
+};

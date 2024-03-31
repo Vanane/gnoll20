@@ -1,7 +1,7 @@
 /**
  * Encapsulation de Component pour ajouter du comportement autour d'un élément
  */
-class Layer extends Component {
+export class Layer extends Component {
 	static baseHTML = `<canvas class='board-layer'><img class="layer-img"></img></canvas>`;
 
 	/** @type {Token[]}} */
@@ -13,14 +13,15 @@ class Layer extends Component {
 	/** @type {HTMLImageElement} */
 	backgroundImage;
 	
-	static instantiate(parentDom, name, id) {
-		return new Layer(parentDom, name)
-			.setAttributes({name, id});
+	static instantiate(parent, name) {
+		return new Layer(parent, name);
 	}
 
 
-	constructor(parentDom, name) {
-		super(parentDom, name);
+	constructor(parent, name) {
+		super(parent, name);
+		
+		this.setAttributes({name});
 
 		this.tokens = [];
 		this.context2D = this.dom.getContext("2d");
@@ -75,4 +76,4 @@ class Layer extends Component {
 		this.renderGrid();
 		this.renderTokens();
 	}
-}
+};

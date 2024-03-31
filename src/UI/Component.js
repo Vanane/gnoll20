@@ -1,14 +1,12 @@
 /**
  * Encapsulation de la création dynamique d'élément
  */
-class Component {
+export class Component {
 	/** @type {string} */
 	static baseHTML = ``;
 
-	static axes = {top:"top", left:"left", bottom:"bottom", right:"right"};	
 
-
-	/** @type {HTMLElement} */
+	/** @type {Component} */
 	parent;
 
 	/** @type {HTMLElement} */
@@ -21,25 +19,33 @@ class Component {
 	restrictDrag;
 
 
-	static instantiate(parentDom, name) {
-		return new Component(parentDom, name);
+	static instantiate(parent, name) {
+		return new Component(parent, name);
 	}
 
 
-	static fromRaw(parentDom, name, html) {
-		var c = new Component(parentDom, name, false);
-		c.html = html;
-		return c.write();
+	static fromRaw(parent, name, html) {
+		var c = new Component(parent, name, false);
+		return c.write(html);
 	}
 
+	static getRoot() {
+		var r = new Component(null, "root", false);
+		return r.write("<div id='root'></div>", false);
+	}
 
-	constructor(parentDom, name, write=true) {
-		this.parent = parentDom;
+	/**
+	 * 
+	 * @param {Component} parent 
+	 * @param {*} name 
+	 * @param {*} write 
+	 */
+	constructor(parent, name, write=true) {
+		this.parent = parent;
 		this.name = name;
-		this.html = this.constructor.baseHTML;
 
 		if(write)
-			this.write();
+			this.write(this.constructor.baseHTML);
 		ComponentManager.instance.addComponent(this);
 	}
 
@@ -74,6 +80,7 @@ class Component {
 		return this;
 	}
 
+
 	afterDrag(func=null) {
 		this.dom.ondragend = func;
 	}
@@ -95,50 +102,43 @@ class Component {
 
 	/**
 	 * 
-	 * @param {Object} from Quels côtés sont redimensionnables : bottom, top, left, right
+	 * @param {strgin} axis Quel côté redimensionner : bottom, top, left, right (voir Resizer.axes)
 	 */
-	makeResizable(from) {
-		if(from[Component.axes.top]) {
-			Resizer.instantiate(this.dom, `${this.name}-resizer`, Component.axes.top);
+	makeResizable(...axes) {
+		for(var i in axes) {
+			var axis = axes[i];
+			if(axis in Resizer.axes)
+				Resizer.instantiate(this, `${this.name}-resizer`, axis);
+			else
+				throw Error(`Axis ${axis} not in Resizer.axes`);
 		}
-		
-		if(from[Component.axes.left]) {
-			Resizer.instantiate(this.dom, `${this.name}-resizer`, Component.axes.left);
-		}
-		
-		if(from[Component.axes.bottom]) {
-			Resizer.instantiate(this.dom, `${this.name}-resizer`, Component.axes.bottom);
-		}
-		
-		if(from[Component.axes.right]) {
-			Resizer.instantiate(this.dom, `${this.name}-resizer`, Component.axes.right);
-		}		
-	}
-	
 
-
-	setTags(tagsAndReplace) {
-		for(var i in tagsAndReplace) {
-			this.html = this.html.replaceAll(`{{${i}}}`, tagsAndReplace[i]);
-		}
 		return this;
 	}
 
 
-	write() {
-		if(!this.html)
-			throw Error("Empty HTML given");	
-		var template = document.createElement('template');
-		template.innerHTML = this.html;
-		this.dom = template.content.children[0];
+	makeFixed() {
+		this.setStyle({ position:"fixed", top:'0', left:'0' });
+		return this;
+	}
+
+	
+	write(html, append=true) {
+		if(!html)
+			throw Error("Empty HTML given");
+		
+		this.dom = createElementFromHTML(html);
+		console.log(this.parent);
 		this.dom.component = this;
-		this.parent.appendChild(this.dom);
+		
+		if(append)
+			this.parent.dom.appendChild(this.dom);
+
 		return this;
 	}
 
 
 	/** Events **/
-
     onDragStart(e) {
         e.dataTransfer.setDragImage(ComponentManager.instance.blank.dom, 0, 0);
 
@@ -157,11 +157,11 @@ class Component {
 		var y = ComponentManager.instance.mouse.clientY - this.mouseOffset.y;
 		
 		if(this.component.restrictDrag) {
-			x = Math.clamp(x, parentRect.x, parentRect.x + parentRect.width - rect.width);
-			y = Math.clamp(y, parentRect.y, parentRect.y + parentRect.height - rect.height);
+			x = clamp(x, parentRect.x, parentRect.x + parentRect.width - rect.width);
+			y = clamp(y, parentRect.y, parentRect.y + parentRect.height - rect.height);
 		}
 
         this.style.left = `${x}px`;
         this.style.top = `${y}px`;
     }
-}
+};

@@ -1,18 +1,31 @@
+import * as gnoll20 from '../gnoll20.js';
+
 function main() {
-	window.componentManager = new ComponentManager();
-	var board = document.getElementById('board');
+	window.componentManager = new gnoll20.ComponentManager();
 
-	Layer.instantiate(board, 'test', 'test')
-		.setBackgroundURL("https://upload.wikimedia.org/wikipedia/commons/5/52/Prout_William_painting.jpg");
+	let layers = [];
 
-	Token.instantiate(board, 'test2')
-		.setTitle('Test 2')
-		.setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/768px-Instagram_icon.png");
+	const mainContainer = gnoll20.Container.instantiate(gnoll20.ComponentManager.instance.root, "main-container");
+	const layersContainer = gnoll20.Container.instantiate(mainContainer, "layers-container")
+		.makeFixed();
+	
+	const uiContainer = gnoll20.Container.instantiate(mainContainer, "ui-container");
 
-	Component.fromRaw(board, "testraw", "<div style='position:fixed;width:200px;height:200px;background-color:white;z-index:500'>prout</div>")
-		.makeDraggable(true)
-		.restrictDragToParent(true)
-		.makeResizable(Component.axes);
+
+
+
+	const sidebar = gnoll20.SideBar.instantiate(uiContainer, "sidebar")
+		.setWidth(`${Math.round(window.visualViewport.width / 4)}px`)
+		.makeResizable(gnoll20.Resizer.axes.right)
+		.setTitle('Menu');
+
+	const sidebarContainer = gnoll20.Container.instantiate(sidebar, "panel-layers");
+	gnoll20.Button.instantiate(sidebarContainer, "button-add-layer")
+		.setLabel("Ajouter une couche")
+		.setAction((e) => {
+			gnoll20.Layer.instantiate(layersContainer, 'test', 'test');
+		});
+
 }
 
 
@@ -21,3 +34,4 @@ document.onreadystatechange = (e) => {
 		main();
 	}
 }
+

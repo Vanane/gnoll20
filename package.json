@@ -1,0 +1,24 @@
+{
+  "name": "gnoll20",
+  "version": "1.0.0",
+  "description": "",
+  "main": "demo/main.js",
+  "scripts": {
+    "build": "./minifier.sh",
+    "demo": "./minifier.sh && http-server -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vanane/gnoll20.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vanane/gnoll20/issues"
+  },
+  "homepage": "https://github.com/Vanane/gnoll20#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
