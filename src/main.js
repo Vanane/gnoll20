@@ -1,11 +1,23 @@
-import './assets/main.css'
+function main() {
+	window.componentManager = new ComponentManager();
+	var board = document.getElementById('board');
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+	Layer.instantiate(board, 'test', 'test')
+		.setBackgroundURL("https://upload.wikimedia.org/wikipedia/commons/5/52/Prout_William_painting.jpg");
 
-const app = createApp(App)
+	Token.instantiate(board, 'test2')
+		.setTitle('Test 2')
+		.setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/768px-Instagram_icon.png");
 
-app.use(router)
+	Component.fromRaw(board, "testraw", "<div style='position:fixed;width:200px;height:200px;background-color:white;z-index:500'>prout</div>")
+		.makeDraggable(true)
+		.restrictDragToParent(true)
+		.makeResizable(Component.axes);
+}
 
-app.mount('#app')
+
+document.onreadystatechange = (e) => {
+	if(e.target.readyState == 'complete') {
+		main();
+	}
+}

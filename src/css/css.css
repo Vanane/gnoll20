@@ -1,0 +1,75 @@
+html, body {
+	padding:0;
+	margin:0;
+	width:100%;
+	height:100%;
+	overflow: hidden;
+}
+
+*[draggable] {
+	cursor: pointer;
+}
+
+.board {
+	display:flex;
+	flex-direction: column;
+	width:100%;
+	height:100%;
+}
+
+.board-layer {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color: lightsteelblue;
+}
+
+.board-layer .layer-img {
+	display:none;
+}
+
+.board-token {
+	position:relative;
+	width:50px;
+	height:50px;
+}
+
+.board-token .token-img {
+	width:100%;
+	height:100%;
+}
+
+.resizer {
+	position:absolute;
+	background-color: gray;
+}
+
+.resizer:hover {
+	background-color: red;
+}
+
+.resizer-top, .resizer-bottom {
+	width:100%;
+	height:5px;
+	left:0;
+}
+.resizer-left, .resizer-right {
+	width:5px;
+	height:100%;
+	top:0;
+}
+
+.resizer-top {
+	top:0;
+}
+.resizer-bottom  {
+	bottom:0;
+}
+.resizer-left {
+	left:0;
+}
+.resizer-right  {
+	right:0;
+}
