@@ -1,4 +1,4 @@
-output=src/gnoll20.js
+output=gnoll20.js
 
 rm "$output" && touch "$output"
 while read -r f; do
